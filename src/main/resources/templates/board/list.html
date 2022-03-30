@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<!-- HEADER -->
+<div th:insert="common/header.html" id="header"></div>
+
+<div class="float-left" style="width:100px;margin:10px 5px;">
+    <a th:href="@{/post}" class="btn btn-primary btn-block">등록</a>
+</div>
+
+<div sec:authorize="isAnonymous()" class="float-left" style="width:100px;margin:10px 5px;">
+    <a th:href="@{/user/login}" class="btn btn-primary btn-block" style="background-color: green;">로그인</a>
+</div>
+<div sec:authorize="isAuthenticated()" class="float-left" style="max-width:200px;margin:18px 5px; display:table-cell; vertical-align:bottom;">
+    <span sec:authentication="name"></span>님 환영합니다!
+</div>
+<div sec:authorize="isAuthenticated()" class="float-left" style="width:110px;margin:10px 5px;">
+    <a th:href="@{/user/logout}" class="btn btn-primary btn-block" style="background-color: green;">로그아웃</a>
+</div>
+<div sec:authorize="isAnonymous()" class="float-left" style="width:110px;margin:10px 5px;">
+    <a th:href="@{/user/signup}" class="btn btn-primary btn-block" style="background-color: black;">회원가입</a>
+</div>
+
+<br/>
+<br/>
+<br/>
+
+<div class="container-fluid">
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+            <tr class="warning">
+                <th class="col-sm-1">No</th>
+                <th class="col-sm-2">거래 구분</th>
+                <th class="col-sm-3">제목</th>
+                <th class="col-sm-2">작성자</th>
+                <th class="col-sm-3">작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- CONTENTS !-->
+            <tr th:each="board : ${boardList}">
+                <td>
+                    <span th:text="${board.id}"></span>
+                </td>
+                <td>
+                    <span th:text="${board.deal_type}"></span>
+                </td>
+                <td>
+                    <a th:href="@{'/post/' + ${board.id}}">
+                        <span th:text="${board.title}"></span>
+                    </a>
+                </td>
+                <td>
+                    <span th:text="${board.writer}"></span>
+                </td>
+                <td>
+                    <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
